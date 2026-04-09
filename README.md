@@ -1,15 +1,17 @@
-# redis_python
+﻿# redis_python
 
-Redis container preparado para EasyPanel, com autenticação obrigatória e persistência.
+Redis container preparado para EasyPanel, com autenticacao obrigatoria e persistencia.
 
-## Variáveis de Ambiente
+Este Redis pode ser compartilhado por varios projetos.
 
-- `REDIS_PASSWORD` (obrigatória): senha do Redis.
-- `REDIS_PORT` (opcional, padrão `6379`): porta interna.
-- `REDIS_APPENDONLY` (opcional, padrão `yes`): persistência AOF.
-- `REDIS_SAVE` (opcional, padrão `900 1 300 10 60 10000`): snapshots RDB.
-- `REDIS_MAXMEMORY` (opcional, padrão `0`): limite de memória (`256mb`, `1gb`...).
-- `REDIS_MAXMEMORY_POLICY` (opcional, padrão `noeviction`): política de eviction.
+## Variaveis de Ambiente
+
+- `REDIS_PASSWORD` (obrigatoria): senha do Redis.
+- `REDIS_PORT` (opcional, padrao `6379`): porta interna.
+- `REDIS_APPENDONLY` (opcional, padrao `yes`): persistencia AOF.
+- `REDIS_SAVE` (opcional, padrao `900 1 300 10 60 10000`): snapshots RDB.
+- `REDIS_MAXMEMORY` (opcional, padrao `0`): limite de memoria (`256mb`, `1gb`...).
+- `REDIS_MAXMEMORY_POLICY` (opcional, padrao `noeviction`): politica de eviction.
 
 ## Deploy no EasyPanel
 
@@ -17,9 +19,15 @@ Redis container preparado para EasyPanel, com autenticação obrigatória e pers
 2. Arquivo: `Dockerfile`
 3. Porta interna: `6379` (ou `REDIS_PORT`)
 4. Volume persistente recomendado: `/data`
-5. Rede: privada/interna
+5. Rede: privada/interna (nao expor publicamente)
 
-## Conexão (exemplo)
+## Uso compartilhado entre projetos
+
+- Preferir prefixo de chave por projeto, exemplo: `chatwoot:*`, `novauniao:*`.
+- Usar TTL para chaves temporarias.
+- Se necessario, separar por database (`/0`, `/1`, `/2`) por dominio.
+- Manter autenticacao sempre habilitada.
+
+## Conexao (exemplo)
 
 `redis://:SUA_SENHA@redis:6379/0`
-
